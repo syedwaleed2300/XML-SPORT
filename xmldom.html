@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Car Sport</h2>
+    <button onclick="loadXML()">Load Car And Price List</button><input type="search" placeholder="Search Sports Car">
+    <table id="cartable" border="4" width="100%">
+
+    </table>
+</body>
+
+<script>
+    let xmldom;
+    function loadXML() {
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                xmldom = this.responseXML;
+                showcarlist()
+                console.log(xmldom)
+            }
+        };
+        xhttp.open("GET", "Class.xml", true);
+        xhttp.send();
+    }
+    function showcarlist() {
+        var cartable = xmldom.getElementsByTagName("car");
+        console.log(cartable)
+       var car = document.getElementById("cartable");
+       car.innerHTML += `<tr>
+            <th>Cars</th>
+         <th>Price</th>
+         </tr>`
+         for (let i in cartable) {
+            console.log(cartable[i])
+            car.innerHTML += `<tr>
+                <td>${cartable[i].getElementsByTagName("name")[0].childNodes[0].nodeValue}</td>
+                <td>${cartable[i].getElementsByTagName("price")[0].childNodes[0].nodeValue}</td>
+                
+            </tr>`
+         }}
+</script>
+</html>
